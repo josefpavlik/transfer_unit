@@ -3,6 +3,7 @@
 
 #define PUMP_ON_TIMEOUT     10 S
 #define PUMP_OFF_TIMEOUT    20 S
+#define BOOT_TIMEOUT        10 S
 
 #define VIRTCOND_SHIFT 3    
 
@@ -82,7 +83,7 @@ void main(void)
     uint8_t i;
     uint8_t trim;
     uint8_t t[CHANS-1];
-    uint16_t timeout=10 S;
+    uint16_t timeout=BOOT_TIMEOUT;
     
     for (i=0; i<CHANS; i++) virt_cond[i]=ADC_GetConversion(adchans[i]);
     while (1) 
