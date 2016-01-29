@@ -89,9 +89,10 @@ extern "C" {
         DAC_channel = 0x1E,
         FVRBuffer1_channel = 0x1F,
         TRIMMER = 0x03,
-        T1 = 0x05,
-        T2 = 0x06,
-        T3 = 0x07
+        T1 = 0x04,
+        T2 = 0x05,
+        T3 = 0x06,
+        T4 = 0x07
     } adc_channel_t;
 
     /**

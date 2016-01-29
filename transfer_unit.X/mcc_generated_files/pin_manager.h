@@ -148,74 +148,74 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #define PUMP_SetPullup()    do { WPUA5 = 1; } while(0)
 #define PUMP_ResetPullup()   do { WPUA5 = 0; } while(0)
-// get/set IO_RC0 aliases
-#define IO_RC0_TRIS               TRISC0
-#define IO_RC0_LAT                LATC0
-#define IO_RC0_PORT               RC0
-#define IO_RC0_WPU                WPUC0
-#define IO_RC0_ANS                ANSC0
-#define IO_RC0_SetHigh()    do { LATC0 = 1; } while(0)
-#define IO_RC0_SetLow()   do { LATC0 = 0; } while(0)
-#define IO_RC0_Toggle()   do { LATC0 = ~LATC0; } while(0)
-#define IO_RC0_GetValue()         RC0
-#define IO_RC0_SetDigitalInput()    do { TRISC0 = 1; } while(0)
-#define IO_RC0_SetDigitalOutput()   do { TRISC0 = 0; } while(0)
-
-#define IO_RC0_SetPullup()    do { WPUC0 = 1; } while(0)
-#define IO_RC0_ResetPullup()   do { WPUC0 = 0; } while(0)
-#define IO_RC0_SetAnalogMode()   do { ANSC0 = 1; } while(0)
-#define IO_RC0_SetDigitalMode()   do { ANSC0 = 0; } while(0)
 // get/set T1 aliases
-#define T1_TRIS               TRISC1
-#define T1_LAT                LATC1
-#define T1_PORT               RC1
-#define T1_WPU                WPUC1
-#define T1_ANS                ANSC1
-#define T1_SetHigh()    do { LATC1 = 1; } while(0)
-#define T1_SetLow()   do { LATC1 = 0; } while(0)
-#define T1_Toggle()   do { LATC1 = ~LATC1; } while(0)
-#define T1_GetValue()         RC1
-#define T1_SetDigitalInput()    do { TRISC1 = 1; } while(0)
-#define T1_SetDigitalOutput()   do { TRISC1 = 0; } while(0)
+#define T1_TRIS               TRISC0
+#define T1_LAT                LATC0
+#define T1_PORT               RC0
+#define T1_WPU                WPUC0
+#define T1_ANS                ANSC0
+#define T1_SetHigh()    do { LATC0 = 1; } while(0)
+#define T1_SetLow()   do { LATC0 = 0; } while(0)
+#define T1_Toggle()   do { LATC0 = ~LATC0; } while(0)
+#define T1_GetValue()         RC0
+#define T1_SetDigitalInput()    do { TRISC0 = 1; } while(0)
+#define T1_SetDigitalOutput()   do { TRISC0 = 0; } while(0)
 
-#define T1_SetPullup()    do { WPUC1 = 1; } while(0)
-#define T1_ResetPullup()   do { WPUC1 = 0; } while(0)
-#define T1_SetAnalogMode()   do { ANSC1 = 1; } while(0)
-#define T1_SetDigitalMode()   do { ANSC1 = 0; } while(0)
+#define T1_SetPullup()    do { WPUC0 = 1; } while(0)
+#define T1_ResetPullup()   do { WPUC0 = 0; } while(0)
+#define T1_SetAnalogMode()   do { ANSC0 = 1; } while(0)
+#define T1_SetDigitalMode()   do { ANSC0 = 0; } while(0)
 // get/set T2 aliases
-#define T2_TRIS               TRISC2
-#define T2_LAT                LATC2
-#define T2_PORT               RC2
-#define T2_WPU                WPUC2
-#define T2_ANS                ANSC2
-#define T2_SetHigh()    do { LATC2 = 1; } while(0)
-#define T2_SetLow()   do { LATC2 = 0; } while(0)
-#define T2_Toggle()   do { LATC2 = ~LATC2; } while(0)
-#define T2_GetValue()         RC2
-#define T2_SetDigitalInput()    do { TRISC2 = 1; } while(0)
-#define T2_SetDigitalOutput()   do { TRISC2 = 0; } while(0)
+#define T2_TRIS               TRISC1
+#define T2_LAT                LATC1
+#define T2_PORT               RC1
+#define T2_WPU                WPUC1
+#define T2_ANS                ANSC1
+#define T2_SetHigh()    do { LATC1 = 1; } while(0)
+#define T2_SetLow()   do { LATC1 = 0; } while(0)
+#define T2_Toggle()   do { LATC1 = ~LATC1; } while(0)
+#define T2_GetValue()         RC1
+#define T2_SetDigitalInput()    do { TRISC1 = 1; } while(0)
+#define T2_SetDigitalOutput()   do { TRISC1 = 0; } while(0)
 
-#define T2_SetPullup()    do { WPUC2 = 1; } while(0)
-#define T2_ResetPullup()   do { WPUC2 = 0; } while(0)
-#define T2_SetAnalogMode()   do { ANSC2 = 1; } while(0)
-#define T2_SetDigitalMode()   do { ANSC2 = 0; } while(0)
+#define T2_SetPullup()    do { WPUC1 = 1; } while(0)
+#define T2_ResetPullup()   do { WPUC1 = 0; } while(0)
+#define T2_SetAnalogMode()   do { ANSC1 = 1; } while(0)
+#define T2_SetDigitalMode()   do { ANSC1 = 0; } while(0)
 // get/set T3 aliases
-#define T3_TRIS               TRISC3
-#define T3_LAT                LATC3
-#define T3_PORT               RC3
-#define T3_WPU                WPUC3
-#define T3_ANS                ANSC3
-#define T3_SetHigh()    do { LATC3 = 1; } while(0)
-#define T3_SetLow()   do { LATC3 = 0; } while(0)
-#define T3_Toggle()   do { LATC3 = ~LATC3; } while(0)
-#define T3_GetValue()         RC3
-#define T3_SetDigitalInput()    do { TRISC3 = 1; } while(0)
-#define T3_SetDigitalOutput()   do { TRISC3 = 0; } while(0)
+#define T3_TRIS               TRISC2
+#define T3_LAT                LATC2
+#define T3_PORT               RC2
+#define T3_WPU                WPUC2
+#define T3_ANS                ANSC2
+#define T3_SetHigh()    do { LATC2 = 1; } while(0)
+#define T3_SetLow()   do { LATC2 = 0; } while(0)
+#define T3_Toggle()   do { LATC2 = ~LATC2; } while(0)
+#define T3_GetValue()         RC2
+#define T3_SetDigitalInput()    do { TRISC2 = 1; } while(0)
+#define T3_SetDigitalOutput()   do { TRISC2 = 0; } while(0)
 
-#define T3_SetPullup()    do { WPUC3 = 1; } while(0)
-#define T3_ResetPullup()   do { WPUC3 = 0; } while(0)
-#define T3_SetAnalogMode()   do { ANSC3 = 1; } while(0)
-#define T3_SetDigitalMode()   do { ANSC3 = 0; } while(0)
+#define T3_SetPullup()    do { WPUC2 = 1; } while(0)
+#define T3_ResetPullup()   do { WPUC2 = 0; } while(0)
+#define T3_SetAnalogMode()   do { ANSC2 = 1; } while(0)
+#define T3_SetDigitalMode()   do { ANSC2 = 0; } while(0)
+// get/set T4 aliases
+#define T4_TRIS               TRISC3
+#define T4_LAT                LATC3
+#define T4_PORT               RC3
+#define T4_WPU                WPUC3
+#define T4_ANS                ANSC3
+#define T4_SetHigh()    do { LATC3 = 1; } while(0)
+#define T4_SetLow()   do { LATC3 = 0; } while(0)
+#define T4_Toggle()   do { LATC3 = ~LATC3; } while(0)
+#define T4_GetValue()         RC3
+#define T4_SetDigitalInput()    do { TRISC3 = 1; } while(0)
+#define T4_SetDigitalOutput()   do { TRISC3 = 0; } while(0)
+
+#define T4_SetPullup()    do { WPUC3 = 1; } while(0)
+#define T4_ResetPullup()   do { WPUC3 = 0; } while(0)
+#define T4_SetAnalogMode()   do { ANSC3 = 1; } while(0)
+#define T4_SetDigitalMode()   do { ANSC3 = 0; } while(0)
 // get/set DEBUG aliases
 #define DEBUG_TRIS               TRISC4
 #define DEBUG_LAT                LATC4

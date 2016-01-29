@@ -10,14 +10,14 @@
             <resource customName="IO_RA3" digital="true" direction="INPUT" function="RA3" ioc="0" module="GPIO" name="RA3" start="false" type="pin" wpu="true"/>
             <resource customName="TRIMMER" digital="false" direction="INPUT" function="AN3" ioc="0" module="ADC" name="RA4" start="false" type="pin" wpu="false"/>
             <resource customName="PUMP" digital="true" direction="OUTPUT" function="RA5" ioc="0" module="GPIO" name="RA5" start="false" type="pin" wpu="false"/>
-            <resource customName="IO_RC0" digital="true" direction="INPUT" function="RC0" ioc="0" module="GPIO" name="RC0" start="false" type="pin" wpu="true"/>
-            <resource customName="T1" digital="false" direction="INPUT" function="AN5" ioc="0" module="ADC" name="RC1" start="false" type="pin" wpu="false"/>
-            <resource customName="T2" digital="false" direction="INPUT" function="AN6" ioc="0" module="ADC" name="RC2" start="false" type="pin" wpu="false"/>
-            <resource customName="T3" digital="false" direction="INPUT" function="AN7" ioc="0" module="ADC" name="RC3" start="false" type="pin" wpu="false"/>
+            <resource customName="T1" digital="false" direction="INPUT" function="AN4" ioc="0" module="ADC" name="RC0" start="false" type="pin" wpu="false"/>
+            <resource customName="T2" digital="false" direction="INPUT" function="AN5" ioc="0" module="ADC" name="RC1" start="false" type="pin" wpu="false"/>
+            <resource customName="T3" digital="false" direction="INPUT" function="AN6" ioc="0" module="ADC" name="RC2" start="false" type="pin" wpu="false"/>
+            <resource customName="T4" digital="false" direction="INPUT" function="AN7" ioc="0" module="ADC" name="RC3" start="false" type="pin" wpu="false"/>
             <resource customName="DEBUG" digital="true" direction="INPUT" function="RC4" ioc="0" module="GPIO" name="RC4" start="false" type="pin" wpu="true"/>
             <resource customName="IO_RC5" digital="true" direction="INPUT" function="RC5" ioc="0" module="GPIO" name="RC5" start="false" type="pin" wpu="true"/>
-            <file checksum="350932581" modified="false" name="pin_manager.c" path="mcc_generated_files/pin_manager.c"/>
-            <file checksum="479613348" modified="false" name="pin_manager.h" path="mcc_generated_files/pin_manager.h"/>
+            <file checksum="352046693" modified="false" name="pin_manager.c" path="mcc_generated_files/pin_manager.c"/>
+            <file checksum="3803528804" modified="false" name="pin_manager.h" path="mcc_generated_files/pin_manager.h"/>
         </manager>
         <manager generated="true" name="System" reloadPin="manual">
             <initializer comment="" name="Initialize">
@@ -73,17 +73,17 @@
             </initializer>
             <setting name="ADI" option="false"/>
             <resource customName="TRIMMER" function="AN3" name="RA4" type="pin"/>
-            <resource customName="T1" function="AN5" name="RC1" type="pin"/>
-            <resource customName="T2" function="AN6" name="RC2" type="pin"/>
-            <resource customName="T3" function="AN7" name="RC3" type="pin"/>
+            <resource customName="T1" function="AN4" name="RC0" type="pin"/>
+            <resource customName="T2" function="AN5" name="RC1" type="pin"/>
+            <resource customName="T3" function="AN6" name="RC2" type="pin"/>
+            <resource customName="T4" function="AN7" name="RC3" type="pin"/>
             <file checksum="1140062774" modified="false" name="adc.c" path="mcc_generated_files/adc.c"/>
-            <file checksum="3390746646" modified="false" name="adc.h" path="mcc_generated_files/adc.h"/>
+            <file checksum="2730537821" modified="false" name="adc.h" path="mcc_generated_files/adc.h"/>
         </module>
         <module generated="true" mode="GPIO" name="GPIO" order="1" reloadPin="manual" type="GPIO">
             <resource customName="IO_RA3" digital="true" direction="INPUT" function="RA3" ioc="0" module="GPIO" name="RA3" start="false" type="pin" wpu="true"/>
             <resource customName="START_BUTTON" digital="true" direction="INPUT" function="RA2" ioc="0" module="GPIO" name="RA2" start="false" type="pin" wpu="true"/>
             <resource customName="PUMP" digital="true" direction="OUTPUT" function="RA5" ioc="0" module="GPIO" name="RA5" start="false" type="pin" wpu="false"/>
-            <resource customName="IO_RC0" digital="true" direction="INPUT" function="RC0" ioc="0" module="GPIO" name="RC0" start="false" type="pin" wpu="true"/>
             <resource customName="DEBUG" digital="true" direction="INPUT" function="RC4" ioc="0" module="GPIO" name="RC4" start="false" type="pin" wpu="true"/>
             <resource customName="IO_RC5" digital="true" direction="INPUT" function="RC5" ioc="0" module="GPIO" name="RC5" start="false" type="pin" wpu="true"/>
         </module>

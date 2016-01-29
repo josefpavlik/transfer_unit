@@ -5,6 +5,8 @@
 #define PUMP_OFF_TIMEOUT    20 S
 #define BOOT_TIMEOUT        10 S
 
+#define LOW_TEMP            350 // deciCelsius
+
 #define VIRTCOND_SHIFT 3    
 
 
@@ -56,6 +58,14 @@ void putdec(uint16_t dec)
     }
 }
 
+const uint8_t adchans[]={T1,T2,T3,T4,TRIMMER};
+#define CHANS (sizeof(adchans)/sizeof(*adchans))
+uint16_t virt_cond[CHANS];
+uint8_t i;
+uint16_t trim;
+uint16_t t[CHANS-1];
+uint16_t timeout=BOOT_TIMEOUT;
+
 void main(void) 
 {
     // initialize the device
@@ -77,13 +87,6 @@ void main(void)
     //INTERRUPT_PeripheralInterruptDisable();
 
     
-    const uint8_t adchans[]={T1,T2,T3,TRIMMER};
-#define CHANS (sizeof(adchans)/sizeof(*adchans))
-    uint16_t virt_cond[CHANS];
-    uint8_t i;
-    uint8_t trim;
-    uint8_t t[CHANS-1];
-    uint16_t timeout=BOOT_TIMEOUT;
     
     for (i=0; i<CHANS; i++) virt_cond[i]=ADC_GetConversion(adchans[i]);
     while (1) 
@@ -120,11 +123,14 @@ void main(void)
 > t1 > (t2 + n) = start
 > t2 < (t3 - n) = stop
 > button pressed = start
+> t4 > 35C start
+> t1 < 35C stop
 */
     // STOP CONDITION
-        if (  !timeout 
+        if (  timeout == 0
            && (  t[0] < t[1]-trim
               || t[1] < t[2]-trim
+              || t[1] < LOW_TEMP  
               )  
            )
         {
@@ -133,7 +139,11 @@ void main(void)
         }    
         
     // START CONDITION    
-        if (  (!timeout && t[0] > t[1]+trim) 
+        if (  (  timeout == 0
+              && (  t[0] > t[1]+trim
+                 || t[3] > LOW_TEMP
+                 )
+              )  
            || START_BUTTON_GetValue()==0
            )
         {
