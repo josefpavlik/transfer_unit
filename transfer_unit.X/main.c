@@ -112,7 +112,6 @@ void main(void)
         if (timeout)
         {
             timeout--;
-            continue;
         }
         
 // program logic:
@@ -120,15 +119,23 @@ void main(void)
 > t1 < (t2 - n) = stop
 > t1 > (t2 + n) = start
 > t2 < (t3 - n) = stop
+> button pressed = start
 */
-        if (  t[0] < t[1]-trim
-           || t[1] < t[2]-trim
+    // STOP CONDITION
+        if (  !timeout 
+           && (  t[0] < t[1]-trim
+              || t[1] < t[2]-trim
+              )  
            )
         {
             PUMP_SetLow();
             timeout=PUMP_OFF_TIMEOUT;
         }    
-        if (  t[0] > t[1]+trim )
+        
+    // START CONDITION    
+        if (  (!timeout && t[0] > t[1]+trim) 
+           || START_BUTTON_GetValue()==0
+           )
         {
             PUMP_SetHigh();
             timeout=PUMP_ON_TIMEOUT;

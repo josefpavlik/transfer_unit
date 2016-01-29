@@ -93,23 +93,23 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define VREFPos_ResetPullup()   do { WPUA1 = 0; } while(0)
 #define VREFPos_SetAnalogMode()   do { ANSA1 = 1; } while(0)
 #define VREFPos_SetDigitalMode()   do { ANSA1 = 0; } while(0)
-// get/set IO_RA2 aliases
-#define IO_RA2_TRIS               TRISA2
-#define IO_RA2_LAT                LATA2
-#define IO_RA2_PORT               RA2
-#define IO_RA2_WPU                WPUA2
-#define IO_RA2_ANS                ANSA2
-#define IO_RA2_SetHigh()    do { LATA2 = 1; } while(0)
-#define IO_RA2_SetLow()   do { LATA2 = 0; } while(0)
-#define IO_RA2_Toggle()   do { LATA2 = ~LATA2; } while(0)
-#define IO_RA2_GetValue()         RA2
-#define IO_RA2_SetDigitalInput()    do { TRISA2 = 1; } while(0)
-#define IO_RA2_SetDigitalOutput()   do { TRISA2 = 0; } while(0)
+// get/set START_BUTTON aliases
+#define START_BUTTON_TRIS               TRISA2
+#define START_BUTTON_LAT                LATA2
+#define START_BUTTON_PORT               RA2
+#define START_BUTTON_WPU                WPUA2
+#define START_BUTTON_ANS                ANSA2
+#define START_BUTTON_SetHigh()    do { LATA2 = 1; } while(0)
+#define START_BUTTON_SetLow()   do { LATA2 = 0; } while(0)
+#define START_BUTTON_Toggle()   do { LATA2 = ~LATA2; } while(0)
+#define START_BUTTON_GetValue()         RA2
+#define START_BUTTON_SetDigitalInput()    do { TRISA2 = 1; } while(0)
+#define START_BUTTON_SetDigitalOutput()   do { TRISA2 = 0; } while(0)
 
-#define IO_RA2_SetPullup()    do { WPUA2 = 1; } while(0)
-#define IO_RA2_ResetPullup()   do { WPUA2 = 0; } while(0)
-#define IO_RA2_SetAnalogMode()   do { ANSA2 = 1; } while(0)
-#define IO_RA2_SetDigitalMode()   do { ANSA2 = 0; } while(0)
+#define START_BUTTON_SetPullup()    do { WPUA2 = 1; } while(0)
+#define START_BUTTON_ResetPullup()   do { WPUA2 = 0; } while(0)
+#define START_BUTTON_SetAnalogMode()   do { ANSA2 = 1; } while(0)
+#define START_BUTTON_SetDigitalMode()   do { ANSA2 = 0; } while(0)
 // get/set IO_RA3 aliases
 #define IO_RA3_PORT               RA3
 #define IO_RA3_WPU                WPUA3
