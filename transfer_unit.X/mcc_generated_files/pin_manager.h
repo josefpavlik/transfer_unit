@@ -110,13 +110,13 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define START_BUTTON_ResetPullup()   do { WPUA2 = 0; } while(0)
 #define START_BUTTON_SetAnalogMode()   do { ANSA2 = 1; } while(0)
 #define START_BUTTON_SetDigitalMode()   do { ANSA2 = 0; } while(0)
-// get/set IO_RA3 aliases
-#define IO_RA3_PORT               RA3
-#define IO_RA3_WPU                WPUA3
-#define IO_RA3_GetValue()         RA3
+// get/set MODE aliases
+#define MODE_PORT               RA3
+#define MODE_WPU                WPUA3
+#define MODE_GetValue()         RA3
 
-#define IO_RA3_SetPullup()    do { WPUA3 = 1; } while(0)
-#define IO_RA3_ResetPullup()   do { WPUA3 = 0; } while(0)
+#define MODE_SetPullup()    do { WPUA3 = 1; } while(0)
+#define MODE_ResetPullup()   do { WPUA3 = 0; } while(0)
 // get/set TRIMMER aliases
 #define TRIMMER_TRIS               TRISA4
 #define TRIMMER_LAT                LATA4
@@ -233,23 +233,23 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define DEBUG_ResetPullup()   do { WPUC4 = 0; } while(0)
 #define DEBUG_SetAnalogMode()   do { ANSC4 = 1; } while(0)
 #define DEBUG_SetDigitalMode()   do { ANSC4 = 0; } while(0)
-// get/set IO_RC5 aliases
-#define IO_RC5_TRIS               TRISC5
-#define IO_RC5_LAT                LATC5
-#define IO_RC5_PORT               RC5
-#define IO_RC5_WPU                WPUC5
-#define IO_RC5_ANS                ANSC5
-#define IO_RC5_SetHigh()    do { LATC5 = 1; } while(0)
-#define IO_RC5_SetLow()   do { LATC5 = 0; } while(0)
-#define IO_RC5_Toggle()   do { LATC5 = ~LATC5; } while(0)
-#define IO_RC5_GetValue()         RC5
-#define IO_RC5_SetDigitalInput()    do { TRISC5 = 1; } while(0)
-#define IO_RC5_SetDigitalOutput()   do { TRISC5 = 0; } while(0)
+// get/set LOW_TEMP aliases
+#define LOW_TEMP_TRIS               TRISC5
+#define LOW_TEMP_LAT                LATC5
+#define LOW_TEMP_PORT               RC5
+#define LOW_TEMP_WPU                WPUC5
+#define LOW_TEMP_ANS                ANSC5
+#define LOW_TEMP_SetHigh()    do { LATC5 = 1; } while(0)
+#define LOW_TEMP_SetLow()   do { LATC5 = 0; } while(0)
+#define LOW_TEMP_Toggle()   do { LATC5 = ~LATC5; } while(0)
+#define LOW_TEMP_GetValue()         RC5
+#define LOW_TEMP_SetDigitalInput()    do { TRISC5 = 1; } while(0)
+#define LOW_TEMP_SetDigitalOutput()   do { TRISC5 = 0; } while(0)
 
-#define IO_RC5_SetPullup()    do { WPUC5 = 1; } while(0)
-#define IO_RC5_ResetPullup()   do { WPUC5 = 0; } while(0)
-#define IO_RC5_SetAnalogMode()   do { ANSC5 = 1; } while(0)
-#define IO_RC5_SetDigitalMode()   do { ANSC5 = 0; } while(0)
+#define LOW_TEMP_SetPullup()    do { WPUC5 = 1; } while(0)
+#define LOW_TEMP_ResetPullup()   do { WPUC5 = 0; } while(0)
+#define LOW_TEMP_SetAnalogMode()   do { ANSC5 = 1; } while(0)
+#define LOW_TEMP_SetDigitalMode()   do { ANSC5 = 0; } while(0)
 
 /**
  * @Param

@@ -10,6 +10,13 @@
 #define VIRTCOND_SHIFT 3    
 
 
+#define MODE_BITHERMOSTAT   0
+
+#define BITHERMO_LOW_TEMP    700
+#define BITHERMO_HIGH_TEMP   800
+#define BITHERMO_HYST        20
+
+
 #include "mcc_generated_files/mcc.h"
 #include <stdio.h>
 
@@ -111,6 +118,20 @@ void main(void)
             puts(" OFF");
         puts(" tout: "); putdec(timeout);
         puts("\r\n");
+        
+        if (MODE_GetValue()==MODE_BITHERMOSTAT)
+        {
+            uint16_t tt=t[0];
+            if (PUMP_LAT==1) tt-=BITHERMO_HYST;
+            PUMP_LAT=(tt>BITHERMO_HIGH_TEMP)?1:0;
+            
+            tt=t[0];
+            if (LOW_TEMP_LAT==1) tt+=BITHERMO_HYST;
+            LOW_TEMP_LAT=(tt<BITHERMO_LOW_TEMP)?1:0;
+            
+            continue;
+        }
+        
         
         if (timeout)
         {

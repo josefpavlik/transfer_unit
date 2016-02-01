@@ -7,7 +7,7 @@
             <resource customName="TX" digital="true" direction="INPUT" function="TX" ioc="0" module="EUSART" name="RA0" start="false" type="pin" wpu="false"/>
             <resource customName="VREF+" digital="false" direction="INPUT" function="VREF+" ioc="0" module="ADC" name="RA1" start="false" type="pin" wpu="false"/>
             <resource customName="START_BUTTON" digital="true" direction="INPUT" function="RA2" ioc="0" module="GPIO" name="RA2" start="false" type="pin" wpu="true"/>
-            <resource customName="IO_RA3" digital="true" direction="INPUT" function="RA3" ioc="0" module="GPIO" name="RA3" start="false" type="pin" wpu="true"/>
+            <resource customName="MODE" digital="true" direction="INPUT" function="RA3" ioc="0" module="GPIO" name="RA3" start="false" type="pin" wpu="true"/>
             <resource customName="TRIMMER" digital="false" direction="INPUT" function="AN3" ioc="0" module="ADC" name="RA4" start="false" type="pin" wpu="false"/>
             <resource customName="PUMP" digital="true" direction="OUTPUT" function="RA5" ioc="0" module="GPIO" name="RA5" start="false" type="pin" wpu="false"/>
             <resource customName="T1" digital="false" direction="INPUT" function="AN4" ioc="0" module="ADC" name="RC0" start="false" type="pin" wpu="false"/>
@@ -15,9 +15,9 @@
             <resource customName="T3" digital="false" direction="INPUT" function="AN6" ioc="0" module="ADC" name="RC2" start="false" type="pin" wpu="false"/>
             <resource customName="T4" digital="false" direction="INPUT" function="AN7" ioc="0" module="ADC" name="RC3" start="false" type="pin" wpu="false"/>
             <resource customName="DEBUG" digital="true" direction="INPUT" function="RC4" ioc="0" module="GPIO" name="RC4" start="false" type="pin" wpu="true"/>
-            <resource customName="IO_RC5" digital="true" direction="INPUT" function="RC5" ioc="0" module="GPIO" name="RC5" start="false" type="pin" wpu="true"/>
-            <file checksum="352046693" modified="false" name="pin_manager.c" path="mcc_generated_files/pin_manager.c"/>
-            <file checksum="3803528804" modified="false" name="pin_manager.h" path="mcc_generated_files/pin_manager.h"/>
+            <resource customName="LOW_TEMP" digital="true" direction="OUTPUT" function="RC5" ioc="0" module="GPIO" name="RC5" start="false" type="pin" wpu="false"/>
+            <file checksum="258723425" modified="false" name="pin_manager.c" path="mcc_generated_files/pin_manager.c"/>
+            <file checksum="2423211828" modified="false" name="pin_manager.h" path="mcc_generated_files/pin_manager.h"/>
         </manager>
         <manager generated="true" name="System" reloadPin="manual">
             <initializer comment="" name="Initialize">
@@ -81,11 +81,11 @@
             <file checksum="2730537821" modified="false" name="adc.h" path="mcc_generated_files/adc.h"/>
         </module>
         <module generated="true" mode="GPIO" name="GPIO" order="1" reloadPin="manual" type="GPIO">
-            <resource customName="IO_RA3" digital="true" direction="INPUT" function="RA3" ioc="0" module="GPIO" name="RA3" start="false" type="pin" wpu="true"/>
+            <resource customName="MODE" digital="true" direction="INPUT" function="RA3" ioc="0" module="GPIO" name="RA3" start="false" type="pin" wpu="true"/>
             <resource customName="START_BUTTON" digital="true" direction="INPUT" function="RA2" ioc="0" module="GPIO" name="RA2" start="false" type="pin" wpu="true"/>
             <resource customName="PUMP" digital="true" direction="OUTPUT" function="RA5" ioc="0" module="GPIO" name="RA5" start="false" type="pin" wpu="false"/>
             <resource customName="DEBUG" digital="true" direction="INPUT" function="RC4" ioc="0" module="GPIO" name="RC4" start="false" type="pin" wpu="true"/>
-            <resource customName="IO_RC5" digital="true" direction="INPUT" function="RC5" ioc="0" module="GPIO" name="RC5" start="false" type="pin" wpu="true"/>
+            <resource customName="LOW_TEMP" digital="true" direction="OUTPUT" function="RC5" ioc="0" module="GPIO" name="RC5" start="false" type="pin" wpu="false"/>
         </module>
         <module generated="true" mode="EUSART Asynchronous(NRZ)" name="EUSART" order="2" reloadPin="manual" type="uart_autobd">
             <initializer comment="" name="Initialize">
