@@ -72,6 +72,7 @@ uint8_t i;
 uint16_t trim;
 uint16_t t[CHANS-1];
 uint16_t timeout=BOOT_TIMEOUT;
+uint8_t button=0xff;
 
 void main(void) 
 {
@@ -146,17 +147,31 @@ void main(void)
 > button pressed = start
 > t4 > 35C start
 > t1 < 35C stop
+ * 
+ * new rules (31/10/16)
+ *  t1 < (t2 - n) = stop
+    t1 > (t2 + n) = start
+    t2 < (t3 + n) = stop
+    (t4 >35C start, t1<35 stop)
+    button pressed = start/stop
+ * 
 */
+        button<<=1;
+        button|=START_BUTTON_GetValue()==0?0:1;
+#define BUTTON_PRESSED() ((button&0x07)==0x04)        
     // STOP CONDITION
-        if (  timeout == 0
-           && (  t[0] < t[1]-trim
-              || t[1] < t[2]-trim
-              || t[1] < LOW_TEMP  
+        if (  (  timeout == 0
+              && (  t[0] < t[1]-trim
+                 || t[1] < t[2]+trim
+                 || t[0] < LOW_TEMP  
+                 )
               )  
+           || BUTTON_PRESSED() && PUMP_GetValue()
            )
         {
             PUMP_SetLow();
             timeout=PUMP_OFF_TIMEOUT;
+            continue;
         }    
         
     // START CONDITION    
@@ -165,11 +180,12 @@ void main(void)
                  || t[3] > LOW_TEMP
                  )
               )  
-           || START_BUTTON_GetValue()==0
+           || BUTTON_PRESSED() && !PUMP_GetValue()
            )
         {
             PUMP_SetHigh();
             timeout=PUMP_ON_TIMEOUT;
+            continue;
         }
       
     }
