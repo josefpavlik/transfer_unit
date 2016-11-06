@@ -8,62 +8,62 @@
     eusart.c
 
   @Summary
-    This is the generated driver implementation file for the EUSART driver using MPLAB® Code Configurator
+    This is the generated driver implementation file for the EUSART driver using MPLAB(c) Code Configurator
 
   @Description
     This header file provides implementations for driver APIs for EUSART.
     Generation Information :
-        Product Revision  :  MPLAB® Code Configurator - v2.25.2
+        Product Revision  :  MPLAB(c) Code Configurator - 4.0
         Device            :  PIC16F1704
         Driver Version    :  2.00
     The generated drivers are tested against the following:
-        Compiler          :  XC8 v1.34
-        MPLAB             :  MPLAB X v2.35 or v3.00
- */
+        Compiler          :  XC8 1.35
+        MPLAB             :  MPLAB X 3.40
+*/
 
 /*
-Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
+    (c) 2016 Microchip Technology Inc. and its subsidiaries. You may use this
+    software and any derivatives exclusively with Microchip products.
 
-Microchip licenses to you the right to use, modify, copy and distribute
-Software only when embedded on a Microchip microcontroller or digital signal
-controller that is integrated into your product or third party product
-(pursuant to the sublicense terms in the accompanying license agreement).
+    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
+    WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
+    PARTICULAR PURPOSE, OR ITS INTERACTION WITH MICROCHIP PRODUCTS, COMBINATION
+    WITH ANY OTHER PRODUCTS, OR USE IN ANY APPLICATION.
 
-You should refer to the license agreement accompanying this Software for
-additional information regarding your rights and obligations.
+    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
+    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
+    BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
+    FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
+    ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
+    THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 
-SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
-EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF
-MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE.
-IN NO EVENT SHALL MICROCHIP OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER
-CONTRACT, NEGLIGENCE, STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR
-OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR INDIRECT DAMAGES OR EXPENSES
-INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, PUNITIVE OR
-CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF
-SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
-(INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
- */
+    MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF THESE
+    TERMS.
+*/
 
 /**
   Section: Included Files
- */
+*/
 #include "eusart.h"
 
 /**
   Section: EUSART APIs
- */
+*/
 
-void EUSART_Initialize(void) {
+void EUSART_Initialize(void)
+{
     // Set the EUSART module to the options selected in the user interface.
 
-    // ABDOVF no_overflow; SCKP async_noninverted_sync_fallingedge; RCIDL idle; BRG16 16bit_generator; WUE disabled; ABDEN disabled; 
-    BAUD1CON = 0x48;
+    // ABDOVF no_overflow; SCKP Non-Inverted; BRG16 16bit_generator; WUE disabled; ABDEN disabled; 
+    BAUD1CON = 0x08;
 
-    // SPEN enabled; OERR no_error; RX9 8-bit; RX9D 0x0; CREN disabled; ADDEN disabled; SREN disabled; FERR no_error; 
+    // SPEN enabled; RX9 8-bit; CREN disabled; ADDEN disabled; SREN disabled; 
     RC1STA = 0x80;
 
-    // TRMT TSR_empty; TX9 8-bit; TX9D 0x0; SENDB sync_break_complete; TXEN enabled; SYNC asynchronous; BRGH hi_speed; CSRC slave_mode; 
-    TX1STA = 0x26;
+    // TX9 8-bit; TX9D 0; SENDB sync_break_complete; TXEN enabled; SYNC asynchronous; BRGH hi_speed; CSRC slave; 
+    TX1STA = 0x24;
 
     // Baud Rate = 9600; SP1BRGL 12; 
     SP1BRGL = 0x0C;
@@ -73,35 +73,45 @@ void EUSART_Initialize(void) {
 
 }
 
-uint8_t EUSART_Read(void) {
 
-    while (!PIR1bits.RCIF) {
+uint8_t EUSART_Read(void)
+{
+
+    RC1STAbits.CREN = 1;	
+    while(!PIR1bits.RCIF)
+    {
     }
 
-    if (1 == RC1STAbits.OERR) {
+    
+    if(1 == RC1STAbits.OERR)
+    {
         // EUSART error - restart
 
-        RC1STAbits.CREN = 0;
-        RC1STAbits.CREN = 1;
+        RC1STAbits.CREN = 0; 
+        RC1STAbits.CREN = 1; 
     }
 
     return RC1REG;
 }
 
-void EUSART_Write(uint8_t txData) {
-    while (0 == PIR1bits.TXIF) {
+void EUSART_Write(uint8_t txData)
+{
+    while(0 == PIR1bits.TXIF)
+    {
     }
 
-    TX1REG = txData; // Write the data byte to the USART.
+    TX1REG = txData;    // Write the data byte to the USART.
 }
 
-char getch(void) {
+char getch(void)
+{
     return EUSART_Read();
 }
 
-void putch(char txData) {
+void putch(char txData)
+{
     EUSART_Write(txData);
 }
 /**
   End of File
- */
+*/

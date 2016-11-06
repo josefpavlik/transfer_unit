@@ -8,48 +8,47 @@
     adc.h
 
   @Summary
-    This is the generated header file for the ADC driver using MPLAB® Code Configurator
+    This is the generated header file for the ADC driver using MPLAB(c) Code Configurator
 
   @Description
     This header file provides APIs for driver for ADC.
     Generation Information :
-        Product Revision  :  MPLAB® Code Configurator - v2.25.2
+        Product Revision  :  MPLAB(c) Code Configurator - 4.0
         Device            :  PIC16F1704
         Driver Version    :  2.00
     The generated drivers are tested against the following:
-        Compiler          :  XC8 v1.34
-        MPLAB             :  MPLAB X v2.35 or v3.00
- */
+        Compiler          :  XC8 1.35
+        MPLAB             :  MPLAB X 3.40
+*/
 
 /*
-Copyright (c) 2013 - 2015 released Microchip Technology Inc.  All rights reserved.
+    (c) 2016 Microchip Technology Inc. and its subsidiaries. You may use this
+    software and any derivatives exclusively with Microchip products.
 
-Microchip licenses to you the right to use, modify, copy and distribute
-Software only when embedded on a Microchip microcontroller or digital signal
-controller that is integrated into your product or third party product
-(pursuant to the sublicense terms in the accompanying license agreement).
+    THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS". NO WARRANTIES, WHETHER
+    EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
+    WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
+    PARTICULAR PURPOSE, OR ITS INTERACTION WITH MICROCHIP PRODUCTS, COMBINATION
+    WITH ANY OTHER PRODUCTS, OR USE IN ANY APPLICATION.
 
-You should refer to the license agreement accompanying this Software for
-additional information regarding your rights and obligations.
+    IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
+    INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
+    WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
+    BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
+    FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
+    ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
+    THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 
-SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
-EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF
-MERCHANTABILITY, TITLE, NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE.
-IN NO EVENT SHALL MICROCHIP OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER
-CONTRACT, NEGLIGENCE, STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR
-OTHER LEGAL EQUITABLE THEORY ANY DIRECT OR INDIRECT DAMAGES OR EXPENSES
-INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, PUNITIVE OR
-CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF
-SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
-(INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
- */
+    MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF THESE
+    TERMS.
+*/
 
 #ifndef _ADC_H
 #define _ADC_H
 
 /**
   Section: Included Files
- */
+*/
 
 #include <xc.h>
 #include <stdint.h>
@@ -57,211 +56,250 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 
-extern "C" {
+    extern "C" {
 
 #endif
 
-    /**
-      Section: Data Types Definitions
-     */
+/**
+  Section: Data Types Definitions
+*/
 
-    /**
-     *  result size of an A/D conversion
-     */
+/**
+ *  result size of an A/D conversion
+ */
 
-    typedef uint16_t adc_result_t;
+typedef uint16_t adc_result_t;
 
-    /** ADC Channel Definition
+/**
+ *  result type of a Double ADC conversion
+ */
+typedef struct
+{
+    adc_result_t adcResult1;
+    adc_result_t adcResult2;
+} adc_sync_double_result_t;
 
-     @Summary
-       Defines the channels available for conversion.
+/** ADC Channel Definition
 
-     @Description
-       This routine defines the channels that are available for the module to use.
+ @Summary
+   Defines the channels available for conversion.
 
-     Remarks:
-       None
-     */
+ @Description
+   This routine defines the channels that are available for the module to use.
 
-    typedef enum {
-        FVRBuffer2_channel = 0x1C,
-        Temp_channel = 0x1D,
-        DAC_channel = 0x1E,
-        FVRBuffer1_channel = 0x1F,
-        TRIMMER = 0x03,
-        T1 = 0x04,
-        T2 = 0x05,
-        T3 = 0x06,
-        T4 = 0x07
-    } adc_channel_t;
+ Remarks:
+   None
+ */
 
-    /**
-      Section: ADC Module APIs
-     */
+typedef enum
+{
+    TRIMMER =  0x3,
+    T1 =  0x4,
+    T2 =  0x5,
+    T3 =  0x6,
+    T4 =  0x7,
+    channel_FVRBuffer2 =  0x1C,
+    channel_Temp =  0x1D,
+    channel_DAC =  0x1E,
+    channel_FVRBuffer1 =  0x1F
+} adc_channel_t;
 
-    /**
-      @Summary
-        Initializes the ADC
+/**
+  Section: ADC Module APIs
+*/
 
-      @Description
-        This routine initializes the Initializes the ADC.
-        This routine must be called before any other ADC routine is called.
-        This routine should only be called once during system initialization.
+/**
+  @Summary
+    Initializes the ADC
 
-      @Preconditions
-        None
+  @Description
+    This routine initializes the Initializes the ADC.
+    This routine must be called before any other ADC routine is called.
+    This routine should only be called once during system initialization.
 
-      @Param
-        None
+  @Preconditions
+    None
 
-      @Returns
-        None
+  @Param
+    None
 
-      @Comment
+  @Returns
+    None
+
+  @Comment
     
 
-      @Example
-        <code>
-        uint16_t convertedValue;
+  @Example
+    <code>
+    uint16_t convertedValue;
 
-        ADC_Initialize();
-        convertedValue = ADC_GetConversionResult();
-        </code>
-     */
-    void ADC_Initialize(void);
+    ADC_Initialize();
+    convertedValue = ADC_GetConversionResult();
+    </code>
+*/
+void ADC_Initialize(void);
 
-    /**
-      @Summary
-        Allows selection of a channel for conversion
+/**
+  @Summary
+    Allows selection of a channel for conversion
 
-      @Description
-        This routine is used to select desired channel for conversion.
-        available
+  @Description
+    This routine is used to select desired channel for conversion.
+    available
 
-      @Preconditions
-        ADC_Initialize() function should have been called before calling this function.
+  @Preconditions
+    ADC_Initialize() function should have been called before calling this function.
 
-      @Returns
-        None
+  @Returns
+    None
 
-      @Param
-        Pass in required channel number
-        "For available channel refer to enum under adc.h file"
+  @Param
+    Pass in required channel number
+    "For available channel refer to enum under adc.h file"
 
-      @Example
-        <code>
-        uint16_t convertedValue;
+  @Example
+    <code>
+    uint16_t convertedValue;
 
-        ADC_Initialize();
-        ADC_StartConversion(AN1_Channel);
-        convertedValue = ADC_GetConversionResult();
-        </code>
-     */
-    void ADC_StartConversion(adc_channel_t channel);
+    ADC_Initialize();
+    ADC_SelectChannel(AN1_Channel);
+    ADC_StartConversion();
+    convertedValue = ADC_GetConversionResult();
+    </code>
+*/
+void ADC_SelectChannel(adc_channel_t channel);
 
-    /**
-      @Summary
-        Returns true when the conversion is completed otherwise false.
+/**
+  @Summary
+    Starts conversion
 
-      @Description
-        This routine is used to determine if conversion is completed.
-        When conversion is complete routine returns true. It returns false otherwise.
+  @Description
+    This routine is used to start conversion of desired channel.
+    
+  @Preconditions
+    ADC_Initialize() function should have been called before calling this function.
 
-      @Preconditions
-        ADC_Initialize() and ADC_StartConversion(adc_channel_t channel)
-        function should have been called before calling this function.
+  @Returns
+    None
 
-      @Returns
-        true  - If conversion is complete
-        false - If conversion is not completed
+  @Param
+    None
 
-      @Param
-        None
+  @Example
+    <code>
+    uint16_t convertedValue;
 
-      @Example
-        <code>
-        uint16_t convertedValue;
+    ADC_Initialize();    
+    ADC_StartConversion();
+    convertedValue = ADC_GetConversionResult();
+    </code>
+*/
+void ADC_StartConversion();
 
-        ADC_Initialize();
-        ADC_StartConversion(AN1_Channel);
+/**
+  @Summary
+    Returns true when the conversion is completed otherwise false.
 
-        while(!ADC_IsConversionDone());
-        convertedValue = ADC_GetConversionResult();
-        </code>
-     */
-    bool ADC_IsConversionDone();
+  @Description
+    This routine is used to determine if conversion is completed.
+    When conversion is complete routine returns true. It returns false otherwise.
 
-    /**
-      @Summary
-        Returns the ADC conversion value.
+  @Preconditions
+    ADC_Initialize() and ADC_StartConversion(adc_channel_t channel)
+    function should have been called before calling this function.
 
-      @Description
-        This routine is used to get the analog to digital converted value. This
-        routine gets converted values from the channel specified.
+  @Returns
+    true  - If conversion is complete
+    false - If conversion is not completed
 
-      @Preconditions
-        This routine returns the conversion value only after the conversion is complete.
-        Completion status can be checked using
-        ADC_IsConversionDone() routine.
+  @Param
+    None
 
-      @Returns
-        Returns the converted value.
+  @Example
+    <code>
+    uint16_t convertedValue;
 
-      @Param
-        None
+    ADC_Initialize();
+    ADC_StartConversion(AN1_Channel);
 
-      @Example
-        <code>
-        uint16_t convertedValue;
+    while(!ADC_IsConversionDone());
+    convertedValue = ADC_GetConversionResult();
+    </code>
+ */
+bool ADC_IsConversionDone();
 
-        ADC_Initialize();
-        ADC_StartConversion(AN1_Channel);
+/**
+  @Summary
+    Returns the ADC conversion value.
 
-        while(ADC_IsConversionDone());
+  @Description
+    This routine is used to get the analog to digital converted value. This
+    routine gets converted values from the channel specified.
 
-        convertedValue = ADC_GetConversionResult();
-        </code>
-     */
-    adc_result_t ADC_GetConversionResult(void);
+  @Preconditions
+    This routine returns the conversion value only after the conversion is complete.
+    Completion status can be checked using
+    ADC_IsConversionDone() routine.
 
-    /**
-      @Summary
-        Returns the ADC conversion value
-        also allows selection of a channel for conversion.
+  @Returns
+    Returns the converted value.
 
-      @Description
-        This routine is used to select desired channel for conversion
-        and to get the analog to digital converted value.
+  @Param
+    None
 
-      @Preconditions
-        ADC_Initialize() function should have been called before calling this function.
+  @Example
+    <code>
+    uint16_t convertedValue;
 
-      @Returns
-        Returns the converted value.
+    ADC_Initialize();
+    ADC_StartConversion(AN1_Channel);
 
-      @Param
-        Pass in required channel number.
-        "For available channel refer to enum under adc.h file"
+    while(ADC_IsConversionDone());
 
-      @Example
-        <code>
-        uint16_t convertedValue;
+    convertedValue = ADC_GetConversionResult();
+    </code>
+ */
+adc_result_t ADC_GetConversionResult(void);
 
-        ADC_Initialize();
+/**
+  @Summary
+    Returns the ADC conversion value
+    also allows selection of a channel for conversion.
 
-        conversion = ADC_GetConversion(AN1_Channel);
-        </code>
-     */
-    adc_result_t ADC_GetConversion(adc_channel_t channel);
+  @Description
+    This routine is used to select desired channel for conversion
+    and to get the analog to digital converted value.
+
+  @Preconditions
+    ADC_Initialize() function should have been called before calling this function.
+
+  @Returns
+    Returns the converted value.
+
+  @Param
+    Pass in required channel number.
+    "For available channel refer to enum under adc.h file"
+
+  @Example
+    <code>
+    uint16_t convertedValue;
+
+    ADC_Initialize();
+
+    conversion = ADC_GetConversion(AN1_Channel);
+    </code>
+*/
+adc_result_t ADC_GetConversion(adc_channel_t channel);
+
 
 #ifdef __cplusplus  // Provide C++ Compatibility
 
-}
+    }
 
 #endif
 
 #endif	//_ADC_H
 /**
  End of File
- */
+*/
 
