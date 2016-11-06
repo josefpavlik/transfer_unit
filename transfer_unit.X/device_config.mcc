@@ -14,9 +14,9 @@
             <resource customName="T2" digital="false" direction="INPUT" function="AN5" ioc="0" module="ADC" name="RC1" start="false" type="pin" wpu="false"/>
             <resource customName="T3" digital="false" direction="INPUT" function="AN6" ioc="0" module="ADC" name="RC2" start="false" type="pin" wpu="false"/>
             <resource customName="T4" digital="false" direction="INPUT" function="AN7" ioc="0" module="ADC" name="RC3" start="false" type="pin" wpu="false"/>
-            <resource customName="DEBUG" digital="true" direction="INPUT" function="RC4" ioc="0" module="GPIO" name="RC4" start="false" type="pin" wpu="true"/>
+            <resource customName="DEBUG" digital="true" direction="OUTPUT" function="RC4" ioc="0" module="GPIO" name="RC4" start="false" type="pin" wpu="false"/>
             <resource customName="LOW_TEMP" digital="true" direction="OUTPUT" function="RC5" ioc="0" module="GPIO" name="RC5" start="false" type="pin" wpu="false"/>
-            <file checksum="258723425" modified="false" name="pin_manager.c" path="mcc_generated_files/pin_manager.c"/>
+            <file checksum="212061791" modified="false" name="pin_manager.c" path="mcc_generated_files/pin_manager.c"/>
             <file checksum="2423211828" modified="false" name="pin_manager.h" path="mcc_generated_files/pin_manager.h"/>
         </manager>
         <manager generated="true" name="System" reloadPin="manual">
@@ -84,7 +84,7 @@
             <resource customName="MODE" digital="true" direction="INPUT" function="RA3" ioc="0" module="GPIO" name="RA3" start="false" type="pin" wpu="true"/>
             <resource customName="START_BUTTON" digital="true" direction="INPUT" function="RA2" ioc="0" module="GPIO" name="RA2" start="false" type="pin" wpu="true"/>
             <resource customName="PUMP" digital="true" direction="OUTPUT" function="RA5" ioc="0" module="GPIO" name="RA5" start="false" type="pin" wpu="false"/>
-            <resource customName="DEBUG" digital="true" direction="INPUT" function="RC4" ioc="0" module="GPIO" name="RC4" start="false" type="pin" wpu="true"/>
+            <resource customName="DEBUG" digital="true" direction="OUTPUT" function="RC4" ioc="0" module="GPIO" name="RC4" start="false" type="pin" wpu="false"/>
             <resource customName="LOW_TEMP" digital="true" direction="OUTPUT" function="RC5" ioc="0" module="GPIO" name="RC5" start="false" type="pin" wpu="false"/>
         </module>
         <module generated="true" mode="EUSART Asynchronous(NRZ)" name="EUSART" order="2" reloadPin="manual" type="uart_autobd">
