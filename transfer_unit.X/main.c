@@ -1,5 +1,5 @@
 // set to frequency measured on DEBUG pin:
-#define DEBUG_HZ 10
+#define DEBUG_HZ 13
 
 #define PUMP_ON_TIMEOUT     10 S
 #define PUMP_OFF_TIMEOUT    20 S
@@ -65,6 +65,11 @@ void putdec(uint16_t dec)
     }
 }
 
+void myputs(const char *ptr)
+{
+    while (*ptr) putchar(*ptr++);
+}
+
 const uint8_t adchans[]={T1,T2,T3,T4,TRIMMER};
 #define CHANS (sizeof(adchans)/sizeof(*adchans))
 uint16_t virt_cond[CHANS];
@@ -109,16 +114,16 @@ void main(void)
         for (i=0; i<CHANS-1; i++) 
             t[i]=convert(ad_to_temp, virt_cond[i]);
         
-        puts("t1: "); putdec(t[0]);
-        puts(" t2: "); putdec(t[1]);
-        puts(" t3: "); putdec(t[2]);
-        puts(" trim: "); putdec(trim);
+        myputs("t1: "); putdec(t[0]);
+        myputs(" t2: "); putdec(t[1]);
+        myputs(" t3: "); putdec(t[2]);
+        myputs(" trim: "); putdec(trim);
         if (PUMP_GetValue())
-            puts(" ON ");
+            myputs(" ON ");
         else
-            puts(" OFF");
-        puts(" tout: "); putdec(timeout);
-        puts("\r\n");
+            myputs(" OFF");
+        myputs(" tout: "); putdec(timeout);
+        myputs("\r\n");
         
         if (MODE_GetValue()==MODE_BITHERMOSTAT)
         {
@@ -160,14 +165,17 @@ void main(void)
         button|=START_BUTTON_GetValue()==0?0:1;
 #define BUTTON_PRESSED() ((button&0x07)==0x04)        
     // STOP CONDITION
-        if (  (  timeout == 0
-              && (  t[0] < t[1]-trim
-                 || t[1] < t[2]+trim
-                 || t[0] < LOW_TEMP  
-                 )
-              )  
-           || BUTTON_PRESSED() && PUMP_GetValue()
-           )
+        if (PUMP_GetValue()
+           && ( BUTTON_PRESSED()
+                ||
+                (  timeout == 0
+                && (  t[0] < t[1]-trim
+                    || t[1] < t[2]+trim
+                    || t[0] < LOW_TEMP  
+                   )
+                )  
+              ) 
+           )     
         {
             PUMP_SetLow();
             timeout=PUMP_OFF_TIMEOUT;
@@ -175,12 +183,15 @@ void main(void)
         }    
         
     // START CONDITION    
-        if (  (  timeout == 0
+        if (!PUMP_GetValue()
+           && ( BUTTON_PRESSED()
+              ||  
+              (  timeout == 0
               && (  t[0] > t[1]+trim
                  || t[3] > LOW_TEMP
                  )
-              )  
-           || BUTTON_PRESSED() && !PUMP_GetValue()
+              )
+             )   
            )
         {
             PUMP_SetHigh();

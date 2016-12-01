@@ -65,10 +65,10 @@ void EUSART_Initialize(void)
     // TX9 8-bit; TX9D 0; SENDB sync_break_complete; TXEN enabled; SYNC asynchronous; BRGH hi_speed; CSRC slave; 
     TX1STA = 0x24;
 
-    // Baud Rate = 9600; SP1BRGL 12; 
-    SP1BRGL = 0x0C;
+    // Baud Rate = 19200; SP1BRGL 51; 
+    SP1BRGL = 0x33;
 
-    // Baud Rate = 9600; SP1BRGH 0; 
+    // Baud Rate = 19200; SP1BRGH 0; 
     SP1BRGH = 0x00;
 
 }

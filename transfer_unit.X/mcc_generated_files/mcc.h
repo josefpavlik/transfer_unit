@@ -52,7 +52,7 @@
 #include "eusart.h"
 #include "adc.h"
 
-#define _XTAL_FREQ  500000
+#define _XTAL_FREQ  4000000
 
 
 /**
