@@ -1,11 +1,13 @@
 // set to frequency measured on DEBUG pin:
 #define DEBUG_HZ 13
 
-#define PUMP_ON_TIMEOUT     10 S
+#define PUMP_ON_TIMEOUT     10 S // min on
+#define PUMP_MAX_ON         60 S
 #define PUMP_OFF_TIMEOUT    20 S
 #define BOOT_TIMEOUT        10 S
 
-#define LOW_TEMP            350 // deciCelsius
+#define T35            350 // deciCelsius
+#define T45            450 // deciCelsius
 
 #define VIRTCOND_SHIFT 3    
 
@@ -23,6 +25,10 @@
 #define HZ (DEBUG_HZ*2)
 #define S *HZ
 
+#define t1 t[0]
+#define t2 t[1]
+#define t3 t[2]
+#define t4 t[3]
 
 struct conv_table
 {
@@ -77,7 +83,9 @@ uint8_t i;
 uint16_t trim;
 uint16_t t[CHANS-1];
 uint16_t timeout=BOOT_TIMEOUT;
+uint16_t run_tout=0;
 uint8_t button=0xff;
+uint8_t running;
 
 void main(void) 
 {
@@ -114,15 +122,18 @@ void main(void)
         for (i=0; i<CHANS-1; i++) 
             t[i]=convert(ad_to_temp, virt_cond[i]);
         
-        myputs("t1: "); putdec(t[0]);
-        myputs(" t2: "); putdec(t[1]);
-        myputs(" t3: "); putdec(t[2]);
+        running=PUMP_GetValue();
+        myputs("t1: "); putdec(t1);
+        myputs(" t2: "); putdec(t2);
+        myputs(" t3: "); putdec(t3);
+        myputs(" t4: "); putdec(t4);
         myputs(" trim: "); putdec(trim);
-        if (PUMP_GetValue())
+        if (running)
             myputs(" ON ");
         else
             myputs(" OFF");
         myputs(" tout: "); putdec(timeout);
+        myputs(" run: "); putdec(run_tout);
         myputs("\r\n");
         
         if (MODE_GetValue()==MODE_BITHERMOSTAT)
@@ -139,10 +150,8 @@ void main(void)
         }
         
         
-        if (timeout)
-        {
-            timeout--;
-        }
+        if (timeout) timeout--;
+        if (run_tout) run_tout--;
         
 // program logic:
 /* rules:
@@ -160,18 +169,41 @@ void main(void)
     (t4 >35C start, t1<35 stop)
     button pressed = start/stop
  * 
+ * rules 2017/01/09
+ * 
+ * * (t1 > (t2 + n)) + (t4 >35C) = start
+* t2 < (t3 + n) = stop
+
+Stop + blokovani moznosti startu:
+
+* t1 < 35C
+* t2 > t1
+* t2 > 45C
+* t3 > 45C
+
+
 */
+// block
+        if (  t1 < T35
+           || t2 > t1
+           || t2 > T45
+           || t3 > T45  
+           || running && run_tout==0     
+           )
+        {
+            PUMP_SetLow();
+            timeout=PUMP_OFF_TIMEOUT;
+            continue;
+        }    
         button<<=1;
         button|=START_BUTTON_GetValue()==0?0:1;
 #define BUTTON_PRESSED() ((button&0x07)==0x04)        
     // STOP CONDITION
-        if (PUMP_GetValue()
+        if ( running
            && ( BUTTON_PRESSED()
                 ||
                 (  timeout == 0
-                && (  t[0] < t[1]-trim
-                    || t[1] < t[2]+trim
-                    || t[0] < LOW_TEMP  
+                && ( t2 < t3+trim
                    )
                 )  
               ) 
@@ -183,12 +215,12 @@ void main(void)
         }    
         
     // START CONDITION    
-        if (!PUMP_GetValue()
+        if (!running
            && ( BUTTON_PRESSED()
               ||  
               (  timeout == 0
-              && (  t[0] > t[1]+trim
-                 || t[3] > LOW_TEMP
+              && (  t1 > t2+trim
+                 || t4 > T35
                  )
               )
              )   
@@ -196,6 +228,7 @@ void main(void)
         {
             PUMP_SetHigh();
             timeout=PUMP_ON_TIMEOUT;
+            run_tout=PUMP_MAX_ON;
             continue;
         }
       
