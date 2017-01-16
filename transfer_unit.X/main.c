@@ -2,13 +2,47 @@
 #define DEBUG_HZ 13
 
 #define PUMP_ON_TIMEOUT     10 S // min on
-#define PUMP_MAX_ON         60 S
+#define PUMP_MAX_ON         15 MIN
 #define PUMP_OFF_TIMEOUT    20 S
 #define BOOT_TIMEOUT        10 S
 
-#define T35            350 // deciCelsius
-#define T45            450 // deciCelsius
+#define C35            350 // deciCelsius
+#define C45            450 // deciCelsius
 
+
+// program logic:
+/* rules:
+ * rules 2017/01/09
+ * 
+* (t2 < 45C) AND (t4 >35C) AND (t1 > (t2 + n)) = start
+* (t1 < (t2 + n)) AND t2 < (t3 + n) = stop
+
+Stop + blokovani moznosti startu:
+
+* t1 < 35C OR t2 > t1 OR t3 > 45C
+*/
+
+#define START_CONDITION() \
+(\
+   t2 < C45 \
+&& t4 > C35 \
+&& t1 > t2+trim \
+)
+#define BLOCK_CONDITION() \
+(\
+   t1 < C35 \
+|| t2 > t1 \
+|| t3 > C45 \
+)
+
+
+#define STOP_CONDITION() \
+(\
+  t1 < t2+trim \
+&& t2 < t3+trim \
+)
+  
+  
 #define VIRTCOND_SHIFT 3    
 
 
@@ -24,11 +58,8 @@
 
 #define HZ (DEBUG_HZ*2)
 #define S *HZ
+#define MIN *60 S
 
-#define t1 t[0]
-#define t2 t[1]
-#define t3 t[2]
-#define t4 t[3]
 
 struct conv_table
 {
@@ -78,10 +109,16 @@ void myputs(const char *ptr)
 
 const uint8_t adchans[]={T1,T2,T3,T4,TRIMMER};
 #define CHANS (sizeof(adchans)/sizeof(*adchans))
+uint16_t t[CHANS-1];
+uint16_t trim;
+
+#define t1 t[0]
+#define t2 t[1]
+#define t3 t[2]
+#define t4 t[3]
+
 uint16_t virt_cond[CHANS];
 uint8_t i;
-uint16_t trim;
-uint16_t t[CHANS-1];
 uint16_t timeout=BOOT_TIMEOUT;
 uint16_t run_tout=0;
 uint8_t button=0xff;
@@ -153,41 +190,8 @@ void main(void)
         if (timeout) timeout--;
         if (run_tout) run_tout--;
         
-// program logic:
-/* rules:
-> t1 < (t2 - n) = stop
-> t1 > (t2 + n) = start
-> t2 < (t3 - n) = stop
-> button pressed = start
-> t4 > 35C start
-> t1 < 35C stop
- * 
- * new rules (31/10/16)
- *  t1 < (t2 - n) = stop
-    t1 > (t2 + n) = start
-    t2 < (t3 + n) = stop
-    (t4 >35C start, t1<35 stop)
-    button pressed = start/stop
- * 
- * rules 2017/01/09
- * 
- * * (t1 > (t2 + n)) + (t4 >35C) = start
-* t2 < (t3 + n) = stop
-
-Stop + blokovani moznosti startu:
-
-* t1 < 35C
-* t2 > t1
-* t2 > 45C
-* t3 > 45C
-
-
-*/
 // block
-        if (  t1 < T35
-           || t2 > t1
-           || t2 > T45
-           || t3 > T45  
+        if (  BLOCK_CONDITION()
            || running && run_tout==0     
            )
         {
@@ -203,8 +207,7 @@ Stop + blokovani moznosti startu:
            && ( BUTTON_PRESSED()
                 ||
                 (  timeout == 0
-                && ( t2 < t3+trim
-                   )
+                && START_CONDITION()
                 )  
               ) 
            )     
@@ -219,9 +222,7 @@ Stop + blokovani moznosti startu:
            && ( BUTTON_PRESSED()
               ||  
               (  timeout == 0
-              && (  t1 > t2+trim
-                 || t4 > T35
-                 )
+              && STOP_CONDITION()
               )
              )   
            )
