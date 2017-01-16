@@ -22,6 +22,8 @@ Stop + blokovani moznosti startu:
 * t1 < 35C OR t2 > t1 OR t3 > 45C
 */
 
+// nestartuje 75 25 10 73
+
 #define START_CONDITION() \
 (\
    t2 < C45 \
@@ -207,7 +209,7 @@ void main(void)
            && ( BUTTON_PRESSED()
                 ||
                 (  timeout == 0
-                && START_CONDITION()
+                && STOP_CONDITION()
                 )  
               ) 
            )     
@@ -222,7 +224,7 @@ void main(void)
            && ( BUTTON_PRESSED()
               ||  
               (  timeout == 0
-              && STOP_CONDITION()
+              && START_CONDITION()
               )
              )   
            )
