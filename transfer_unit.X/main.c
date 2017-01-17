@@ -8,6 +8,7 @@
 
 #define C35            350 // deciCelsius
 #define C45            450 // deciCelsius
+#define C3              30
 
 
 // program logic:
@@ -19,10 +20,9 @@
 
 Stop + blokovani moznosti startu:
 
-* t1 < 35C OR t2 > t1 OR t3 > 45C
+* t1 < 35C OR t1 < t2-3C OR t3 > 45C
 */
 
-// nestartuje 75 25 10 73
 
 #define START_CONDITION() \
 (\
@@ -30,13 +30,13 @@ Stop + blokovani moznosti startu:
 && t4 > C35 \
 && t1 > t2+trim \
 )
+
 #define BLOCK_CONDITION() \
 (\
    t1 < C35 \
-|| t2 > t1 \
+|| t1 < t2-C3 \
 || t3 > C45 \
 )
-
 
 #define STOP_CONDITION() \
 (\
@@ -46,7 +46,6 @@ Stop + blokovani moznosti startu:
   
   
 #define VIRTCOND_SHIFT 3    
-
 
 #define MODE_BITHERMOSTAT   0
 
