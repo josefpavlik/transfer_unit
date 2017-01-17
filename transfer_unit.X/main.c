@@ -1,15 +1,10 @@
 // set to frequency measured on DEBUG pin:
 #define DEBUG_HZ 13
 
-#define PUMP_ON_TIMEOUT     10 S // min on
+#define PUMP_ON_TIMEOUT     20 S // min on
 #define PUMP_MAX_ON         15 MIN
-#define PUMP_OFF_TIMEOUT    20 S
+#define PUMP_OFF_TIMEOUT    5 MIN
 #define BOOT_TIMEOUT        10 S
-
-#define C35            350 // deciCelsius
-#define C45            450 // deciCelsius
-#define C3              30
-
 
 // program logic:
 /* rules:
@@ -23,24 +18,25 @@ Stop + blokovani moznosti startu:
 * t1 < 35C OR t1 < t2-3C OR t3 > 45C
 */
 
+#define HYST 1 CELSIUS
 
 #define START_CONDITION() \
 (\
-   t2 < C45 \
-&& t4 > C35 \
+   t2 < 45 CELSIUS \
+&& t4 > 35 CELSIUS \
 && t1 > t2+trim \
 )
 
 #define BLOCK_CONDITION() \
 (\
-   t1 < C35 \
-|| t1 < t2-C3 \
-|| t3 > C45 \
+   t1 < 35 CELSIUS \
+|| t1 < t2 - 3 CELSIUS \
+|| t3 > 45 CELSIUS \
 )
 
 #define STOP_CONDITION() \
 (\
-  t1 < t2+trim \
+  t1 < t2+trim-HYST \
 && t2 < t3+trim \
 )
   
@@ -60,6 +56,7 @@ Stop + blokovani moznosti startu:
 #define HZ (DEBUG_HZ*2)
 #define S *HZ
 #define MIN *60 S
+#define CELSIUS *10
 
 
 struct conv_table
