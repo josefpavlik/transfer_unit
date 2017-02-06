@@ -10,19 +10,26 @@
 /* rules:
  * rules 2017/01/09
  * 
-* (t2 < 45C) AND (t4 >35C) AND (t1 > (t2 + n)) = start
+* (t2 < 50C) AND (t4 >35C) AND (t1 > (t2 + n)) = start
 * (t1 < (t2 + n)) AND t2 < (t3 + n) = stop
 
 Stop + blokovani moznosti startu:
 
-* t1 < 35C OR t1 < t2-3C OR t3 > 45C
+* t1 < 35C OR t2 > t1+5C OR t3 > 42C
+ * 
+ * 
+ * * jedna z podminek je t3 > 45C, je potreba ji zmenit na t3 > 42C
+* dalsi z blokovacich podminek je t2 < 45C, je potreba ji zmenit na t2 < 50C
+* podminku t2 > t1 zmenit na t2 > (t1 + 5C)
+ * 
+ t2 a t3 ukazji o 14C vic, t1 a t4 o 28C
+
 */
 
-#define HYST 1 CELSIUS
 
 #define START_CONDITION() \
 (\
-   t2 < 45 CELSIUS \
+   t2 < 50 CELSIUS \
 && t4 > 35 CELSIUS \
 && t1 > t2+trim \
 )
@@ -30,17 +37,17 @@ Stop + blokovani moznosti startu:
 #define BLOCK_CONDITION() \
 (\
    t1 < 35 CELSIUS \
-|| t1 < t2 - 3 CELSIUS \
-|| t3 > 45 CELSIUS \
+|| t2 > t1 + 5 CELSIUS \
+|| t3 > 42 CELSIUS \
 )
 
 #define STOP_CONDITION() \
 (\
-  t1 < t2+trim-HYST \
-&& t2 < t3+trim \
+  t2 < t3+trim \
 )
   
-  
+#define CORRECTIONS { -280, -140, -150, -280 }
+
 #define VIRTCOND_SHIFT 3    
 
 #define MODE_BITHERMOSTAT   0
@@ -107,6 +114,7 @@ void myputs(const char *ptr)
 
 const uint8_t adchans[]={T1,T2,T3,T4,TRIMMER};
 #define CHANS (sizeof(adchans)/sizeof(*adchans))
+int corrections[CHANS]=CORRECTIONS;
 uint16_t t[CHANS-1];
 uint16_t trim;
 
@@ -155,7 +163,7 @@ void main(void)
             virt_cond[i]+=((int16_t)(ADC_GetConversion(adchans[i])-virt_cond[i]))>>VIRTCOND_SHIFT;
         trim=(virt_cond[CHANS-1]/(65536/11))*10;
         for (i=0; i<CHANS-1; i++) 
-            t[i]=convert(ad_to_temp, virt_cond[i]);
+            t[i]=convert(ad_to_temp, virt_cond[i])+corrections[i];
         
         running=PUMP_GetValue();
         myputs("t1: "); putdec(t1);
