@@ -1,7 +1,7 @@
 // set to frequency measured on DEBUG pin:
 #define DEBUG_HZ 13
 
-#define PUMP_ON_TIMEOUT     20 S // min on
+#define PUMP_ON_TIMEOUT     2 MIN // min on
 #define PUMP_MAX_ON         15 MIN
 #define PUMP_OFF_TIMEOUT    5 MIN
 #define BOOT_TIMEOUT        10 S
@@ -46,9 +46,9 @@ Stop + blokovani moznosti startu:
   t2 < t3+trim \
 )
   
-#define CORRECTIONS { -280, -140, -150, -280 }
+#define CORRECTIONS { -280+57, -140+61, -150+48, -280+57 }
 
-#define VIRTCOND_SHIFT 3    
+#define VIRTCOND_SHIFT 7    
 
 #define MODE_BITHERMOSTAT   0
 
@@ -123,7 +123,7 @@ uint16_t trim;
 #define t3 t[2]
 #define t4 t[3]
 
-uint16_t virt_cond[CHANS];
+int32_t virt_cond[CHANS];
 uint8_t i;
 uint16_t timeout=BOOT_TIMEOUT;
 uint16_t run_tout=0;
@@ -152,7 +152,7 @@ void main(void)
 
     
     
-    for (i=0; i<CHANS; i++) virt_cond[i]=ADC_GetConversion(adchans[i]);
+    for (i=0; i<CHANS; i++) virt_cond[i]=(int32_t)ADC_GetConversion(adchans[i])<<15;
     while (1) 
     {
         CLRWDT();
@@ -160,10 +160,10 @@ void main(void)
         
 // read:        
         for (i=0; i<CHANS; i++) 
-            virt_cond[i]+=((int16_t)(ADC_GetConversion(adchans[i])-virt_cond[i]))>>VIRTCOND_SHIFT;
-        trim=(virt_cond[CHANS-1]/(65536/11))*10;
+            virt_cond[i]+=(((int32_t)ADC_GetConversion(adchans[i])<<15)-virt_cond[i])>>VIRTCOND_SHIFT;
+        trim=((virt_cond[CHANS-1]>>15)/(65536/11))*10;
         for (i=0; i<CHANS-1; i++) 
-            t[i]=convert(ad_to_temp, virt_cond[i])+corrections[i];
+            t[i]=convert(ad_to_temp, virt_cond[i]>>15)+corrections[i];
         
         running=PUMP_GetValue();
         myputs("t1: "); putdec(t1);
